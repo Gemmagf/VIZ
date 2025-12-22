@@ -274,7 +274,7 @@ st.caption(
 )
 st.caption(
     "El color indica la pèrdua econòmica acumulada i la mida el volum de cancel·lacions. "
-    "Les cancel·lacions amb molta antelació, especialment en resorts, concentren les pèrdues més elevades."
+    "Les cancel·lacions amb molta antelació, especialment en hotels  de ciutat, concentren les pèrdues més elevades."
 )
 st.markdown(
     "> Insight crític: el risc econòmic no es concentra en el last-minute, sinó en reserves anticipades d'alt valor."
@@ -326,7 +326,7 @@ fig_dist.update_traces(showlegend=False)
 fig_dist.update_layout(yaxis_title="Tarifa Mitjana (€)", xaxis_title="Canal")
 st.plotly_chart(fig_dist, use_container_width=True)
 st.caption(
-    "Els canals directes i corporatius mostren una tarifa mitjana superior i més estable."
+    "Els canals directes i corporatius mostren una tarifa mitjana inferior i més estable."
 )
 st.markdown(
     "> Estratègia clau: potenciar el canal directe millora marge i redueix dependència d'intermediaris."
