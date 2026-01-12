@@ -27,15 +27,16 @@ def load_data():
 df = load_data()
 
 # =========================
-# Carregar GeoJSON de cantons suïssos
+# Carregar dataset
 # =========================
 @st.cache_data
-def load_geojson():
-    with open("switzerland.geojson", "r") as f: 
-        geojson = json.load(f)
-    return geojson
+def load_data():
+    df  = pd.read_csv("df_final_compressed.csv.gz", sep=';', decimal='.', encoding='utf-8', compression='gzip')
 
-geojson = load_geojson()
+  # utilitza el teu fitxer
+    return df
+
+df = load_data()
 
 # =========================
 # Sidebar - filtres
