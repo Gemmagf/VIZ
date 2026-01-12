@@ -19,7 +19,7 @@ Filtra per cantó, any i tipus de delicte per obtenir informació detallada.
 # =========================
 @st.cache_data
 def load_data():
-    df  = pd.read_csv("df_final.csv", sep=';', decimal='.', encoding='utf-8')
+    df  = pd.read_csv("df_final_compressed.csv.gz", sep=';', decimal='.', encoding='utf-8', compression='gzip')
 
   # utilitza el teu fitxer
     return df
