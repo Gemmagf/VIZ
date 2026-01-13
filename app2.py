@@ -11,6 +11,7 @@ st.set_page_config(page_title="Criminalitat a Suïssa (2010-2022)", layout="wide
 st.title("Criminalitat a Suïssa (2010–2022)")
 st.markdown("""
 Autor: Christian Bevilacqua i Aregall
+Codi: https://github.com/cbevilacqua18/PRA1
 """)
 st.markdown("""
 Explora l'evolució de delictes a Suïssa, comparatives entre cantons i relació amb variables socioeconòmiques.
