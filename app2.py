@@ -10,20 +10,12 @@ import json
 st.set_page_config(page_title="Criminalitat a Suïssa (2010-2022)", layout="wide")
 st.title("Criminalitat a Suïssa (2010–2022)")
 st.markdown("""
+Autor: Christian Bevilacqua i Aregall
+""")
+st.markdown("""
 Explora l'evolució de delictes a Suïssa, comparatives entre cantons i relació amb variables socioeconòmiques.
 Filtra per cantó, any i tipus de delicte per obtenir informació detallada.
 """)
-
-# =========================
-# Carregar GeoJSON de cantons suïssos
-# =========================
-@st.cache_data
-def load_geojson():
-    with open("switzerland.geojson", "r") as f: 
-        geojson = json.load(f)
-    return geojson
-
-geojson = load_geojson()
 
 # =========================
 # Carregar dataset
@@ -36,6 +28,17 @@ def load_data():
     return df
 
 df = load_data()
+
+# =========================
+# Carregar GeoJSON de cantons suïssos
+# =========================
+@st.cache_data
+def load_geojson():
+    with open("switzerland.geojson", "r") as f: 
+        geojson = json.load(f)
+    return geojson
+
+geojson = load_geojson()
 
 # =========================
 # Sidebar - filtres
@@ -93,14 +96,7 @@ map_fig.update_geos(fitbounds="locations", visible=False)
 map_fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
 st.plotly_chart(map_fig, use_container_width=True)
 
-st.markdown("""
-
-El mapa de criminalitat per cantó permet observar diferències territorials clares tant en la taxa de criminalitat per 1.000 habitants com en el nombre absolut de delictes. Els cantons urbans i densament poblats, com **Zuric, Vaud, Ginebra i Basel-Stadt**, destaquen de manera consistent amb valors més elevats, especialment quan s’analitza el nombre total de delictes. En canvi, cantons més petits i rurals com **Uri, Nidwalden, Obwalden o Glarus** presenten taxes i volums de criminalitat significativament inferiors al llarg de tot el període analitzat.
-
-Quan es selecciona la taxa de criminalitat per 1.000 habitants, es posa de manifest que alguns cantons urbans, com **Ginebra i Basel-Stadt**, mantenen nivells estructuralment més alts fins i tot quan es corregeix per població, fet que suggereix una major intensitat del fenomen criminal associada a factors com la densitat, la mobilitat i l’activitat econòmica. En canvi, cantons amb població elevada però estructura més dispersa, com **Berna o St. Gallen**, mostren valors intermedis.
-
-L’evolució temporal reflecteix una tendència general de descens de la criminalitat entre aproximadament 2012 i 2020 en la majoria de cantons, seguida d’un lleuger repunt en alguns casos a partir de 2021–2022. En conjunt, el mapa evidencia que la criminalitat a Suïssa presenta un fort component territorial i estructural, més relacionat amb el tipus de cantó (urbà vs. rural) que amb fluctuacions puntuals en el temps.
-""")
+st.markdown(""" La criminalitat es concentra principalment als cantons urbans i densament poblats, mentre que els cantons rurals mantenen nivells clarament inferiors tant en volum com en taxa.""")
 # =========================
 # Secció 3: Evolució temporal per cantó
 # =========================
@@ -116,12 +112,7 @@ line_fig = px.line(
 st.plotly_chart(line_fig, use_container_width=True)
 
 st.markdown("""
-El gràfic d’evolució temporal permet analitzar com ha variat la criminalitat a cada cantó entre 2010 i 2022, tant en termes de nombre absolut de delictes com de taxa per 1.000 habitants, segons la mètrica seleccionada. S’observa una tendència generalitzada de creixement fins aproximadament els anys 2011–2012, seguida d’un descens sostingut de la criminalitat en la majoria de cantons fins al període 2019–2020.
-
-Els cantons urbans com **Zuric, Vaud, Ginebra i Basel-Stadt** presenten nivells clarament superiors al llarg de tot el període, amb una separació visual notable respecte a la resta de cantons, fet que indica que les diferències territorials són persistents en el temps i no fruit de fluctuacions puntuals. En particular, **Ginebra i Basel-Stadt** destaquen també quan s’analitza la taxa de criminalitat, mostrant una major intensitat relativa del fenomen criminal.
-
-A partir de 2021–2022 es detecta un lleuger repunt de la criminalitat en diversos cantons, que trenca la tendència descendent observada en els anys anteriors. Tot i així, aquest increment no retorna als màxims del període inicial. En conjunt, el gràfic evidencia una evolució temporal relativament sincronitzada entre cantons, però amb nivells estructuralment diferents segons el tipus de territori, especialment entre cantons urbans i rurals.
-""")
+Tots els cantons segueixen una evolució temporal similar, amb una davallada general fins al 2020 i un lleuger repunt recent, però amb diferències estructurals persistents entre territoris urbans i rurals.""")
 
 # =========================
 # Secció 4: Relació amb variables socioeconòmiques
@@ -169,14 +160,7 @@ st.plotly_chart(scatter_fig, use_container_width=True)
 
 st.markdown("""
 
-El gràfic de dispersió interactiu permet analitzar la relació entre el PIB per càpita, el percentatge de població estrangera i la taxa de criminalitat als cantons suïssos al llarg del període 2010–2022. L’animació temporal mostra que, malgrat les variacions anuals, la posició relativa dels cantons es manté força estable, fet que indica l’existència de patrons estructurals persistents.
-
-No s’observa una relació lineal clara entre el nivell de renda i la taxa de criminalitat. Cantons amb PIB per càpita elevat presenten comportaments heterogenis, amb taxes de criminalitat tant altes com moderades. Això suggereix que el nivell de desenvolupament econòmic, per si sol, no és un factor explicatiu suficient del fenomen criminal.
-
-En canvi, el percentatge de població estrangera mostra una associació més consistent amb taxes de criminalitat més elevades, especialment en cantons urbans i densament poblats com **Ginebra, Basel-Stadt, Vaud i Zuric**. Tot i això, aquesta relació no s’ha d’interpretar com una causalitat directa, sinó com el reflex de factors estructurals associats a la urbanització, la densitat poblacional, la mobilitat internacional i la concentració d’activitat econòmica.
-
-Finalment, la dimensió temporal reforça la idea que les diferències entre cantons són persistents al llarg del temps, amb canvis graduals però sense alteracions brusques en els patrons generals, fet que apunta a una estructura territorial de la criminalitat relativament estable a Suïssa.
-""")
+Tots els cantons segueixen una evolució temporal similar, amb una davallada general fins al 2020 i un lleuger repunt recent, però amb diferències estructurals persistents entre territoris urbans i rurals.""")
 
 # =========================
 # Secció 4: Resolució de casos
@@ -193,16 +177,18 @@ top_delictes = (
 )
 
 def categoritza_delicte(d):
-    if 'vol' in d.lower() or 'détournement' in d.lower() or 'dommages' in d.lower():
-        return 'Vols / Détournements / Dommages'
-    elif 'violence' in d.lower() or 'lésions' in d.lower() or 'meurtre' in d.lower():
-        return 'Violence / Homicide'
-    elif 'fraude' in d.lower() or 'escroquerie' in d.lower() or 'corruption' in d.lower():
-        return 'Fraude / Corruption'
-    elif 'sexuel' in d.lower() or 'inceste' in d.lower() or 'prostitution' in d.lower():
-        return 'Infractions sexuelles'
+    d_lower = d.lower()
+    if 'vol' in d_lower or 'détournement' in d_lower or 'dommages' in d_lower:
+        return 'Robatoris / Détournements / Danys'  # Vols / Détournements / Dommages
+    elif 'violence' in d_lower or 'lésions' in d_lower or 'meurtre' in d_lower:
+        return 'Violència / Homicidi'  # Violence / Homicide
+    elif 'fraude' in d_lower or 'escroquerie' in d_lower or 'corruption' in d_lower:
+        return 'Frau / Corrupció'  # Fraude / Corruption
+    elif 'sexuel' in d_lower or 'inceste' in d_lower or 'prostitution' in d_lower:
+        return 'Infraccions sexuals'  # Infractions sexuelles
     else:
-        return 'Autres'
+        return 'Altres'  # Autres
+
 
 stacked_data['Categorie'] = stacked_data['Tipus_de_Delicte'].apply(categoritza_delicte)
 stacked_data_cat = stacked_data.groupby(['Categorie', 'Nivell_de_Resolucio'])['Nombre_de_Delictes'].sum().reset_index()
@@ -220,6 +206,10 @@ stacked_data_cat = stacked_data.groupby(
 # Calculem percentatge dins de cada categoria
 stacked_data_cat['Percentatge'] = stacked_data_cat.groupby('Categorie')['Nombre_de_Delictes'].transform(lambda x: 100 * x / x.sum())
 
+# Eliminem 'Total de casos'
+stacked_data_cat = stacked_data_cat[
+    stacked_data_cat['Nivell_de_Resolucio'] != 'Total de casos'
+]
 
 stacked_fig = px.bar(
     stacked_data_cat,
@@ -239,20 +229,7 @@ stacked_fig.update_layout(
 st.plotly_chart(stacked_fig, use_container_width=True)
 
 st.markdown("""
-El gràfic de barres apilat mostra la distribució percentual dels delictes segons la seva categoria i el nivell de resolució. L’anàlisi destaca clarament com diferents tipus de delictes presenten perfils molt diferents pel que fa a resolució.
-
-Els delictes classificats com a **Vols / Détournements / Dommages** representen gairebé la meitat del total dels casos (50%), amb una proporció elevada de casos no resolts (41,2%) i només un 8,8% resolts. Això indica que aquest tipus d’infraccions és abundant i sovint difícil de resoldre.
-
-En canvi, els delictes de **Violence / Homicide** tenen una taxa de resolució molt alta (43%), tot i representar una fracció menor del total (50%). Això suggereix que, malgrat la gravetat i complexitat dels casos, el sistema policial i judicial és relativament eficaç en aquest tipus d’infraccions.
-
-Els delictes de **Fraude / Corruption** mostren una resolució parcial (aproximadament 28% resolts) i representen una proporció moderada del total (50%), indicant un cert grau d’èxit en la investigació però també dificultats inherents a la naturalesa oculta d’aquests delictes.
-
-Les **Infractions sexuelles** tenen un perfil similar: tot i representar només una petita fracció del total, la proporció de casos resolts és superior al 41%, destacant l’atenció que reben aquests casos en la investigació.
-
-Finalment, els delictes classificats com a **Autres** constitueixen un volum molt elevat (50% del total) amb un 31% de casos no resolts i 19% resolts, reflectint la diversitat i complexitat d’altres tipus d’infraccions menys categorizables.
-
-En conjunt, el gràfic evidencia que la **resolució dels delictes depèn fortament de la categoria**, amb delictes més greus o específics mostrant majors taxes de resolució, mentre que delictes més comuns o generalistes sovint queden sense resoldre. Aquesta anàlisi permet identificar àrees on caldria reforçar la prevenció i els recursos d’investigació per millorar l’eficàcia global del sistema penal.
-""")
+Tots els cantons segueixen una evolució temporal similar, amb una davallada general fins al 2020 i un lleuger repunt recent, però amb diferències estructurals persistents entre territoris urbans i rurals.""")
 
 # =========================
 # Secció 5: Evolució temporal per categoria de delicte
@@ -287,23 +264,7 @@ line_cat_fig = px.line(
 st.plotly_chart(line_cat_fig, use_container_width=True)
 
 st.markdown("""
-El gràfic de línies mostra l'evolució anual del **nombre de delictes a Suïssa entre 2010 i 2022**, segons les principals categories.
-
-Alguns punts clau de la interpretació:
-
-- **Altres**: Aquesta categoria inclou delictes menors i no específics. Tot i ser la més abundant (aproximadament 3,7–5,2 milions anuals), mostra **fluctuacions importants**: màxim el 2012, disminució constant fins al 2021 i un lleuger repunt el 2022. La volatilitat reflecteix la diversitat d’infraccions incloses en aquesta categoria.
-
-- **Robatoris / Détournements / Danys**: Amb més d’un milió de casos anuals, representa la segona categoria més freqüent. Es detecta una **tendència a la baixa a partir del 2016**, indicant possibles efectes de mesures de prevenció i control en aquests tipus de delictes comuns.
-
-- **Violència / Homicidi**: Tot i ser relativament poc nombrosos (≈45.000–50.000 casos anuals), els valors es mantenen **estables al llarg dels anys**, mostrant que els crims més greus i específics tenen un patró constant que requereix estratègies especialitzades de prevenció.
-
-- **Frau / Corrupció**: Mostra un **augment progressiu** des de 38.000 casos el 2010 fins a quasi 96.000 el 2022. Aquest increment pot reflectir tant un augment real dels delictes com una millor detecció i denúncia, indicant la complexitat d’aquest tipus d’infraccions.
-
-- **Infraccions sexuals**: La tendència és **relativament constant**, amb valors entre 42.000 i 54.000 casos anuals i un lleuger augment a partir del 2015–2016, possiblement degut a un registre més sistemàtic i major atenció a aquests casos.
-
-
-Podem dir dons que les categories de delictes més abundants tendeixen a **disminuir amb el temps**, mentre que les menys nombroses o més complexes mostren **estabilitat o increment**. La **distribució desigual i les diferents tendències per categoria** indiquen que cal aplicar estratègies de prevenció diferenciades segons la naturalesa i la gravetat dels delictes. Aquesta anàlisi permet avaluar on **reforçar recursos de prevenció i investigació**, prioritzant tant delictes abundants com aquells que, tot i ser menys nombrosos, tenen un impacte social més rellevant.
-""")
+Les categories més freqüents disminueixen amb el temps, mentre que delictes més complexos com el frau mostren una tendència creixent.""")
 
 # =========================
 # Secció 7: Evolució temporal de la resolució per categoria
@@ -325,25 +286,7 @@ line_res_fig = px.line(
 st.plotly_chart(line_res_fig, use_container_width=True)
 
 st.markdown("""
-El gràfic d’evolució temporal mostra com ha variat la **taxa de resolució dels delictes a Suïssa** entre 2010 i 2022 segons les categories principals, complementant la informació sobre el nombre total de casos.
-
-Alguns punts clau:
-
-- **Robatoris / Détournements / Danys**: Tot i ser una de les categories més abundants (més d’un milió de casos anuals), presenten una **taxa de resolució relativament baixa** (≈15–22%). Aquest patró indica que aquests delictes són difícils de resoldre i requereixen mesures d’investigació específiques i reforçades.
-
-- **Violència / Homicidi**: Aquesta categoria, amb un volum menor de casos (≈45.000–50.000 anuals), mostra una **taxa de resolució molt alta** (≈82–88%) al llarg de tot el període. Això reflecteix l’eficàcia del sistema judicial i policial davant dels delictes més greus i específics, que, malgrat la seva complexitat, són investigats de manera eficient.
-
-- **Frau / Corrupció**: Tot i un **increment constant en el nombre de casos** des de 38.000 el 2010 fins a gairebé 96.000 el 2022, la taxa de resolució ha anat **disminuint progressivament del 80% al 41%**, indicant que aquests delictes, tot i ser detectats amb més freqüència, continuen sent difícils de resoldre completament per la seva naturalesa complexa i oculta.
-
-- **Infraccions sexuals**: Manté una evolució **relativament estable** (≈42.000–54.000 casos anuals), amb una **alta taxa de resolució** (≈78–84%), demostrant que aquests delictes reben una atenció constant i que les investigacions són efectives.
-
-- **Altres**: Categoria molt variada i abundant (≈3,7–5,2 milions de casos anuals), amb un comportament oscil·lant: màxim el 2012, disminució fins al 2021 i repunt lleuger el 2022. La taxa de resolució és **moderada** (≈32–44%), reflectint la dificultat d’investigar infraccions menors o menys categorizables.
-
-**Conclusió general:**
-- La **resolució dels delictes depèn fortament de la categoria**, amb delictes greus i específics mostrant taxes altes, mentre que els delictes més abundants i generals tendeixen a tenir una resolució baixa.
-- Aquest patró evidencia la necessitat de **estratègies diferenciades**: reforçar els recursos d’investigació en delictes abundants difícils de resoldre, mentre es manté l’eficiència en la resolució de delictes greus.
-- En conjunt, la combinació de dades de nombre de casos i taxa de resolució ofereix una **visió completa sobre la situació criminal** i les àrees prioritàries per a la prevenció i l’acció policial.
-""")
+Els cantons grans concentren la major part dels delictes en totes les categories, confirmant el paper clau de la població i la urbanització en el volum criminal.""")
 
 
 
@@ -399,20 +342,7 @@ heatmap_fig = px.imshow(
 # Mostrem al Streamlit amb un key únic
 st.plotly_chart(heatmap_fig, use_container_width=True, key="heatmap_corr")
 st.markdown("""
-El heatmap de correlació mostra la relació estadística entre el nombre total de delictes per cantó i diverses variables socioeconòmiques i demogràfiques, com el **PIB per càpita**, el **percentatge d’estrangers** i la **població total**.
-
-Alguns punts clau de la interpretació:
-
-- **Nombre_de_Delictes vs. Població_Total (0.997)**: La correlació és molt alta i positiva, indicant que el nombre total de delictes està fortament determinat per la mida de la població del cantó. Cantons més grans, com **Zuric, Bern o Vaud**, presenten un volum molt superior de delictes simplement per la major població.
-
-- **Nombre_de_Delictes vs. PIB_per_Capita (0.041)**: La correlació és pràcticament nul·la, la qual cosa suggereix que el nivell de renda per càpita no té un efecte directe sobre el nombre total de delictes. Això indica que el fenomen criminal no depèn principalment de la riquesa mitjana del cantó.
-
-- **Nombre_de_Delictes vs. Percentatge_Estrangers (0.151)**: La correlació és lleugerament positiva, però baixa. Això reflecteix una tendència subtil: cantons amb més població estrangera poden registrar una incidència lleugerament més alta de delictes, però la relació no és forta i no implica causalitat directa. Altres factors com la densitat urbana, l’activitat econòmica i la mobilitat poden influir més.
-
-- **PIB_per_Capita vs. Percentatge_Estrangers (0.604)**: Hi ha una correlació moderada positiva, indicant que cantons més rics solen tenir una proporció més alta de població estrangera. Això pot reflectir l’atracció de treballadors i professionals internacionals cap a zones urbanes i econòmicament actives.
-
-En conjunt, el heatmap evidencia que **la variable que més explica el nombre total de delictes és la població del cantó**, mentre que factors com el PIB per càpita i el percentatge d’estrangers tenen un efecte molt més moderat. Aquesta informació és útil per ajustar les polítiques de prevenció i recursos policials segons la dimensió i característiques del cantó.
-""")
+La població del cantó explica gairebé tot el volum de delictes, mentre que el PIB i el percentatge d’estrangers tenen una influència molt més limitada.""")
 
 # =========================
 # Secció 10: Impacte de característiques socioeconòmiques en tendències per categoria
@@ -438,20 +368,47 @@ bubble_fig = px.scatter(
     color_continuous_scale='Viridis',
     labels={'Nombre_de_Delictes':'Delictes','Percentatge_Estrangers':'% estrangers','PIB_per_Capita':'PIB per càpita'}
 )
+
+bubble_fig = px.scatter(
+    bubble_data,
+    x='PIB_per_Capita',
+    y='Nombre_de_Delictes',
+    size='Poblacio_Total',
+    color='Categorie',   # 👈 color discret
+    animation_frame='Any',
+    hover_name='Canto_norm',
+    facet_col='Categorie',
+    size_max=40,
+    labels={
+        'Nombre_de_Delictes':'Delictes',
+        'PIB_per_Capita':'PIB per càpita'
+    }
+)
+
 st.plotly_chart(bubble_fig, use_container_width=True)
 
 st.markdown("""
-El gràfic de bombolles interactiu mostra la relació entre el nombre de delictes per categoria, el **PIB per càpita**, el **percentatge d’estrangers** i la **població total** dels cantons suïssos al llarg dels anys 2020–2022. Cada bombolla representa un cantó en un any determinat, la mida indica la població total i el color el percentatge d’estrangers.
+EEl volum de delictes per categoria està principalment determinat per la població del cantó, amb efectes socioeconòmics moderats i específics segons el tipus de delicte.""")
 
-Alguns punts clau de la interpretació:
+st.markdown("---")
 
-- **Nombre de delictes vs. Població_Total**: Els cantons més poblats, com **Zuric, Bern o Vaud**, mostren les bombolles més grans i el volum més alt de delictes en categories comunes com **Altres** i **Robatoris / Détournements / Danys**. Això confirma que la dimensió de la població és el factor principal que determina el nombre absolut de delictes.
+st.markdown("""## Conclusions
 
-- **Nombre de delictes vs. PIB_per_Capita**: No s’observa una relació lineal clara. Tot i que alguns cantons amb PIB alt mostren volums elevats en categories com robatoris, altres cantons rics tenen menys delictes. Això suggereix que la riquesa mitjana no és un factor determinant per si sola en el volum de delictes.
+L’anàlisi de la criminalitat a Suïssa mitjançant l’enriquiment del *Swiss National Crime Dataset* amb dades demogràfiques i socioeconòmiques permet extreure diverses conclusions rellevants a nivell temporal, territorial i estructural.
 
-- **Nombre de delictes vs. Percentatge_Estrangers**: Els cantons amb un percentatge més alt de població estrangera tendeixen a tenir bombolles més fosques, indicant més delictes en categories comunes. La relació és més visible en **Robatoris / Détournements / Danys** i **Altres**, mentre que delictes greus com **Violència / Homicidi** i **Infraccions sexuals** no mostren una associació clara.
+### 1. Evolució temporal dels delictes
+Entre 2008 i 2022 s’observa una **tendència general de descens dels delictes més abundants**, especialment *Robatoris / Détournements / Danys* i *Altres*, amb una lleugera recuperació en els darrers anys. En canvi, *Frau / Corrupció* mostra un **increment progressiu**, mentre que els delictes violents i les infraccions sexuals es mantenen relativament estables.
 
-- **Variació temporal (2020–2022)**: La posició relativa de les bombolles canvia lleugerament d’un any a un altre, però els patrons generals es mantenen constants. Els delictes comuns dominen el volum total, mentre que els delictes greus mantenen xifres relativament estables. Això reflecteix tendències estructurals persistents per cantó i categoria, amb canvis anuals moderats.
+### 2. Diferències entre cantons
+Existeixen **diferències territorials clares** en el nombre i el tipus de delictes. Els cantons urbans i densament poblats (Zuric, Vaud, Ginebra, Basel-Stadt) concentren més delictes, tant en termes absoluts com, en alguns casos, en taxa per 1.000 habitants, mentre que els cantons rurals presenten nivells significativament inferiors.
 
-El gràfic evidencia que **la població del cantó és el factor que més determina el nombre de delictes**, mentre que el PIB per càpita i el percentatge d’estrangers tenen un efecte més moderat i específic per categoria. Aquesta informació ajuda a entendre millor quins factors socioeconòmics i demogràfics poden influir en les tendències criminals i permet orientar les polítiques preventives segons les característiques regionals.
-""")
+### 3. Taxa de resolució dels delictes
+La **taxa de resolució depèn fortament del tipus de delicte**. Els delictes greus i específics (*Violència / Homicidi*, *Infraccions sexuals*) mostren taxes elevades i estables, mentre que els delictes més comuns (*Robatoris / Danys*) tenen una resolució baixa. *Frau / Corrupció* combina un augment de casos amb una disminució progressiva de la taxa de resolució.
+
+### 4. Relació amb factors socioeconòmics
+La **població total del cantó és el factor més determinant** del nombre de delictes. El PIB per càpita no mostra una relació clara amb la incidència criminal, mentre que el percentatge de població estrangera presenta una associació moderada, especialment en contextos urbans, sense evidència de causalitat directa.
+
+### 5. Impacte regional i estructural
+Les tendències criminals responen a la **interacció entre factors demogràfics, socioeconòmics i territorials**. Les diferències entre cantons són persistents al llarg del temps, indicant una estructura criminal relativament estable que requereix **estratègies de prevenció i investigació adaptades al context regional i al tipus de delicte**.
+
+**En síntesi**, l’enfocament multidimensional (fet–dimensió) permet una comprensió més profunda de la criminalitat a Suïssa i aporta informació clau per a la planificació de polítiques públiques basades en evidència.""")
